@@ -1,0 +1,78 @@
+import type { Text } from './types'
+
+export type GlossaryEntry = {
+  abbr: string
+  latin: string
+  meaning: Text
+  group: 'title' | 'rank' | 'office' | 'victory' | 'reverse' | 'mint' | 'family'
+}
+
+export const glossary: GlossaryEntry[] = [
+  { abbr: 'IMP', latin: 'Imperator', meaning: { en: 'Commander, victorious general; from Vespasian on the first name of the emperor', de: 'Feldherr, Sieger; ab Vespasian der erste Name des Kaisers' }, group: 'title' },
+  { abbr: 'CAES', latin: 'Caesar', meaning: { en: 'Family name of Julius Caesar, became a title. From the 2nd century: the designated heir', de: 'Familienname Caesars, wurde zum Titel. Ab dem 2. Jh.: der designierte Thronfolger' }, group: 'rank' },
+  { abbr: 'AVG', latin: 'Augustus', meaning: { en: 'The Exalted One; title of the reigning emperor since 27 BC', de: 'Der Erhabene; Titel des regierenden Kaisers seit 27 v. Chr.' }, group: 'rank' },
+  { abbr: 'AVGG', latin: 'Augusti', meaning: { en: 'Two Augusti reign together; AVGGG means three', de: 'Zwei Augusti regieren gemeinsam; AVGGG bedeutet drei' }, group: 'rank' },
+  { abbr: 'AVGVSTA', latin: 'Augusta', meaning: { en: 'Title of the empress, mother or sister of the emperor', de: 'Titel der Kaiserin, Kaisermutter oder -schwester' }, group: 'family' },
+  { abbr: 'P M', latin: 'Pontifex Maximus', meaning: { en: 'High priest of Rome, held by every emperor', de: 'Oberpriester Roms, von jedem Kaiser geführt' }, group: 'office' },
+  { abbr: 'TR P', latin: 'Tribunicia Potestate', meaning: { en: 'Tribunician power, renewed each year; the number after it counts the years of reign', de: 'Tribunizische Gewalt, jährlich erneuert; die Zahl dahinter zählt die Regierungsjahre' }, group: 'office' },
+  { abbr: 'COS', latin: 'Consul', meaning: { en: 'Consul; the number counts how often the emperor held the office', de: 'Konsul; die Zahl zählt, wie oft der Kaiser das Amt bekleidete' }, group: 'office' },
+  { abbr: 'COS DES', latin: 'Consul Designatus', meaning: { en: 'Consul designate for the coming year', de: 'Designierter Konsul für das kommende Jahr' }, group: 'office' },
+  { abbr: 'P P', latin: 'Pater Patriae', meaning: { en: 'Father of the fatherland, an honorary title', de: 'Vater des Vaterlandes, ein Ehrentitel' }, group: 'title' },
+  { abbr: 'P F', latin: 'Pius Felix', meaning: { en: 'Dutiful and fortunate; standard from the 3rd century', de: 'Fromm und glücklich; Standard ab dem 3. Jh.' }, group: 'title' },
+  { abbr: 'D N', latin: 'Dominus Noster', meaning: { en: 'Our Lord; opens most legends after Diocletian', de: 'Unser Herr; eröffnet die meisten Legenden nach Diokletian' }, group: 'title' },
+  { abbr: 'DIVI F', latin: 'Divi Filius', meaning: { en: 'Son of the deified one (Augustus, son of the deified Julius Caesar)', de: 'Sohn des Vergöttlichten (Augustus als Sohn des vergöttlichten Caesar)' }, group: 'family' },
+  { abbr: 'DIVVS', latin: 'Divus', meaning: { en: 'Deified; posthumous coins for an emperor made a god', de: 'Vergöttlicht; posthume Münzen für einen zum Gott erhobenen Kaiser' }, group: 'family' },
+  { abbr: 'NOB C', latin: 'Nobilissimus Caesar', meaning: { en: 'Most noble Caesar; title of the heirs in the Tetrarchy and after', de: 'Edelster Caesar; Titel der Thronfolger in der Tetrarchie und danach' }, group: 'rank' },
+  { abbr: 'PRINC IVVENT', latin: 'Princeps Iuventutis', meaning: { en: 'Leader of the youth; honorary title for young heirs', de: 'Führer der Jugend; Ehrentitel junger Thronfolger' }, group: 'rank' },
+  { abbr: 'GERM', latin: 'Germanicus', meaning: { en: 'Victor over the Germans', de: 'Sieger über die Germanen' }, group: 'victory' },
+  { abbr: 'DAC', latin: 'Dacicus', meaning: { en: 'Victor over the Dacians (Trajan)', de: 'Sieger über die Daker (Trajan)' }, group: 'victory' },
+  { abbr: 'PART', latin: 'Parthicus', meaning: { en: 'Victor over the Parthians', de: 'Sieger über die Parther' }, group: 'victory' },
+  { abbr: 'BRIT', latin: 'Britannicus', meaning: { en: 'Victor in Britain', de: 'Sieger in Britannien' }, group: 'victory' },
+  { abbr: 'ARAB ADIAB', latin: 'Arabicus Adiabenicus', meaning: { en: 'Victor over Arabia and Adiabene (Septimius Severus)', de: 'Sieger über Arabien und Adiabene (Septimius Severus)' }, group: 'victory' },
+  { abbr: 'MAX', latin: 'Maximus', meaning: { en: 'The greatest; attached to victory titles, e.g. GERM MAX', de: 'Der Größte; an Siegestitel angehängt, z. B. GERM MAX' }, group: 'victory' },
+  { abbr: 'S C', latin: 'Senatus Consulto', meaning: { en: 'By decree of the Senate; on bronze coins of the 1st to 3rd century', de: 'Auf Beschluss des Senats; auf Bronzemünzen des 1. bis 3. Jh.' }, group: 'reverse' },
+  { abbr: 'S P Q R', latin: 'Senatus Populusque Romanus', meaning: { en: 'The Senate and People of Rome', de: 'Senat und Volk von Rom' }, group: 'reverse' },
+  { abbr: 'OB CIV SER', latin: 'Ob Cives Servatos', meaning: { en: 'For saving the citizens; the oak wreath', de: 'Für die Rettung der Bürger; der Eichenkranz' }, group: 'reverse' },
+  { abbr: 'EX S C', latin: 'Ex Senatus Consulto', meaning: { en: 'By decree of the Senate (on gold and silver of Nero)', de: 'Auf Beschluss des Senats (auf Gold und Silber Neros)' }, group: 'reverse' },
+  { abbr: 'CONCORDIA', latin: 'Concordia', meaning: { en: 'Harmony, often of the army or the imperial couple', de: 'Eintracht, oft des Heeres oder des Kaiserpaars' }, group: 'reverse' },
+  { abbr: 'FEL TEMP REPARATIO', latin: 'Felicium Temporum Reparatio', meaning: { en: 'Restoration of happy times; the great bronze series from 348', de: 'Wiederherstellung glücklicher Zeiten; die große Bronzeserie ab 348' }, group: 'reverse' },
+  { abbr: 'GLORIA EXERCITVS', latin: 'Gloria Exercitus', meaning: { en: 'Glory of the army; two soldiers with standards, 330–341', de: 'Ruhm des Heeres; zwei Soldaten mit Standarten, 330–341' }, group: 'reverse' },
+  { abbr: 'GENIO POPVLI ROMANI', latin: 'Genio Populi Romani', meaning: { en: 'To the Genius of the Roman people; the standard nummus of the Tetrarchy', de: 'Dem Genius des römischen Volkes; der Standard-Nummus der Tetrarchie' }, group: 'reverse' },
+  { abbr: 'SECVRITAS REIPVBLICAE', latin: 'Securitas Reipublicae', meaning: { en: 'Security of the state; Victory walking, 364–378', de: 'Sicherheit des Staates; schreitende Victoria, 364–378' }, group: 'reverse' },
+  { abbr: 'VOT', latin: 'Vota', meaning: { en: 'Vows for the emperor’s reign: VOT X for ten years, VOT XX MVLT XXX for twenty, with hope of thirty', de: 'Gelübde für die Herrschaft: VOT X für zehn Jahre, VOT XX MVLT XXX für zwanzig, mit Hoffnung auf dreißig' }, group: 'reverse' },
+  { abbr: 'RESTITVTOR ORBIS', latin: 'Restitutor Orbis', meaning: { en: 'Restorer of the world (Aurelian, Probus)', de: 'Wiederhersteller der Welt (Aurelian, Probus)' }, group: 'reverse' },
+  { abbr: 'CONSECRATIO', latin: 'Consecratio', meaning: { en: 'Deification; eagle or altar on posthumous coins', de: 'Vergöttlichung; Adler oder Altar auf posthumen Münzen' }, group: 'reverse' },
+  { abbr: 'ADVENTVS', latin: 'Adventus', meaning: { en: 'Arrival of the emperor in a city; emperor on horseback', de: 'Ankunft des Kaisers in einer Stadt; Kaiser zu Pferd' }, group: 'reverse' },
+  { abbr: 'LIBERALITAS', latin: 'Liberalitas', meaning: { en: 'Generosity; a cash distribution to the people', de: 'Freigebigkeit; eine Geldverteilung an das Volk' }, group: 'reverse' },
+  { abbr: 'ANNONA', latin: 'Annona', meaning: { en: 'The grain supply of Rome; a woman with corn ears and a ship’s prow', de: 'Die Getreideversorgung Roms; Frau mit Ähren und Schiffsbug' }, group: 'reverse' },
+  { abbr: 'XXI', latin: 'XXI', meaning: { en: 'Mark of Aurelian’s reform: twenty parts bronze to one of silver', de: 'Zeichen von Aurelians Reform: zwanzig Teile Bronze auf einen Teil Silber' }, group: 'mint' },
+  { abbr: 'P / S / T / Q', latin: 'Prima, Secunda, Tertia, Quarta', meaning: { en: 'First to fourth workshop (officina) of a mint; Greek letters A B Γ Δ in the east', de: 'Erste bis vierte Werkstatt (Officina) einer Münzstätte; im Osten griechische Buchstaben A B Γ Δ' }, group: 'mint' },
+  { abbr: 'SM', latin: 'Sacra Moneta', meaning: { en: 'Sacred mint; prefix of many late mint marks, e.g. SMANT', de: 'Heilige Münze; Vorsilbe vieler später Münzzeichen, z. B. SMANT' }, group: 'mint' },
+  { abbr: 'OB', latin: 'Obryzum', meaning: { en: 'Pure gold; COMOB on solidi from 368 on', de: 'Reines Gold; COMOB auf Solidi ab 368' }, group: 'mint' },
+]
+
+export const personifications: { name: string; attribute: Text }[] = [
+  { name: 'Pax', attribute: { en: 'olive branch and sceptre or caduceus: peace', de: 'Ölzweig und Zepter oder Caduceus: Frieden' } },
+  { name: 'Victoria', attribute: { en: 'wings, wreath and palm: victory', de: 'Flügel, Kranz und Palme: Sieg' } },
+  { name: 'Fortuna', attribute: { en: 'rudder and cornucopia: fortune', de: 'Steuerruder und Füllhorn: Glück' } },
+  { name: 'Felicitas', attribute: { en: 'caduceus and cornucopia: good fortune', de: 'Caduceus und Füllhorn: Glückseligkeit' } },
+  { name: 'Salus', attribute: { en: 'feeding a snake from a patera: health', de: 'füttert eine Schlange aus einer Schale: Wohlergehen' } },
+  { name: 'Annona', attribute: { en: 'corn ears, modius, ship’s prow: grain supply', de: 'Ähren, Scheffel, Schiffsbug: Getreideversorgung' } },
+  { name: 'Concordia', attribute: { en: 'patera and cornucopia, or clasped hands: harmony', de: 'Schale und Füllhorn oder verschränkte Hände: Eintracht' } },
+  { name: 'Roma', attribute: { en: 'helmeted, seated with Victory and spear: the city', de: 'behelmt, sitzend mit Victoria und Speer: die Stadt' } },
+  { name: 'Virtus', attribute: { en: 'helmeted soldier with spear and parazonium: courage', de: 'behelmter Soldat mit Speer und Parazonium: Tapferkeit' } },
+  { name: 'Providentia', attribute: { en: 'pointing a wand at a globe: foresight', de: 'zeigt mit Stab auf Globus: Vorsehung' } },
+  { name: 'Aequitas / Moneta', attribute: { en: 'scales and cornucopia: fair measure, the mint', de: 'Waage und Füllhorn: gerechtes Maß, die Münze' } },
+  { name: 'Spes', attribute: { en: 'walking, holding a flower, lifting her skirt: hope', de: 'schreitend, mit Blume, den Saum hebend: Hoffnung' } },
+  { name: 'Libertas', attribute: { en: 'pileus (cap of freedom) and sceptre: liberty', de: 'Pileus (Freiheitskappe) und Zepter: Freiheit' } },
+  { name: 'Pietas', attribute: { en: 'veiled, sacrificing at an altar: duty', de: 'verschleiert, opfernd am Altar: Frömmigkeit' } },
+  { name: 'Securitas', attribute: { en: 'leaning on a column, legs crossed: security', de: 'an Säule gelehnt, Beine gekreuzt: Sicherheit' } },
+  { name: 'Genius', attribute: { en: 'naked youth with patera and cornucopia: guardian spirit', de: 'nackter Jüngling mit Schale und Füllhorn: Schutzgeist' } },
+  { name: 'Sol', attribute: { en: 'radiate, raising a hand, holding a globe or whip: the sun', de: 'mit Strahlenkrone, Hand erhoben, Globus oder Peitsche: die Sonne' } },
+  { name: 'Jupiter (IOVI)', attribute: { en: 'sceptre and thunderbolt, eagle at his feet', de: 'Zepter und Blitzbündel, Adler zu Füßen' } },
+  { name: 'Mars', attribute: { en: 'helmeted, spear and trophy or shield', de: 'behelmt, Speer und Tropaion oder Schild' } },
+  { name: 'Minerva', attribute: { en: 'helmet, spear, shield, owl (Domitian)', de: 'Helm, Speer, Schild, Eule (Domitian)' } },
+  { name: 'Hercules', attribute: { en: 'club and lion skin (Commodus, Maximian)', de: 'Keule und Löwenfell (Commodus, Maximian)' } },
+  { name: 'Juno', attribute: { en: 'patera and sceptre, peacock at her feet (empresses)', de: 'Schale und Zepter, Pfau zu Füßen (Kaiserinnen)' } },
+  { name: 'Venus', attribute: { en: 'apple or helmet, leaning on a column (empresses)', de: 'Apfel oder Helm, an Säule gelehnt (Kaiserinnen)' } },
+]

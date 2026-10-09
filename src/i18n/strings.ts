@@ -126,6 +126,18 @@ export const strings = {
   worldKeys: { en: 'Arrows / WASD: walk. Space: talk. B: book. M: music', de: 'Pfeile / WASD: gehen. Leertaste: reden. B: Buch. M: Musik' },
   travelHint: { en: 'Choose a site with the arrow keys and Enter.', de: 'Wähle einen Ort mit den Pfeiltasten und Enter.' },
   stayHere: { en: 'Stay here', de: 'Hier bleiben' },
+  roomKeys: { en: 'Arrows / WASD: walk. Space: talk. Door at the bottom: leave', de: 'Pfeile / WASD: gehen. Leertaste: reden. Tür unten: hinaus' },
+  npcQuiz: { en: 'Test me', de: 'Prüf mich' },
+  npcHint: { en: 'Where are the coins?', de: 'Wo liegen die Münzen?' },
+  questReward: { en: 'You gain {n} experience.', de: 'Du erhältst {n} Erfahrung.' },
+  hintNone: { en: 'The earth is quiet. Nothing lies hidden right now.', de: 'Die Erde schweigt. Im Moment liegt nichts verborgen.' },
+  hintCount: { en: 'The earth speaks of {n} coins still hidden: {dirs}.', de: 'Die Erde spricht von {n} verborgenen Münzen: {dirs}.' },
+  hintNearest: { en: 'Something glints in the {dir} of the village. Go and look!', de: 'Im {dir} des Dorfes glitzert etwas. Geh und sieh nach!' },
+  north: { en: 'north', de: 'Norden' },
+  south: { en: 'south', de: 'Süden' },
+  east: { en: 'east', de: 'Osten' },
+  west: { en: 'west', de: 'Westen' },
+  middle: { en: 'middle', de: 'Mitte' },
   titleCredit: { en: 'Coins and data: OCRE and the American Numismatic Society', de: 'Münzen und Daten: OCRE und American Numismatic Society' },
 } satisfies Record<string, Text>
 

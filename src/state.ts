@@ -18,6 +18,7 @@ export type Save = {
   chapterDone: number[]
   cabinet: CabinetEntry[]
   skills: SkillStats
+  flags: Record<string, number>
 }
 
 const KEY = 'moneta.save.v1'
@@ -45,6 +46,7 @@ export function freshSave(lang: Lang = 'en'): Save {
     chapterDone: [],
     cabinet: [],
     skills: emptySkills(),
+    flags: {},
   }
 }
 
@@ -53,7 +55,7 @@ function load(): Save {
     const raw = localStorage.getItem(KEY)
     if (raw) {
       const parsed = JSON.parse(raw) as Partial<Save>
-      return { ...freshSave(), ...parsed, skills: { ...emptySkills(), ...(parsed.skills ?? {}) } }
+      return { ...freshSave(), ...parsed, skills: { ...emptySkills(), ...(parsed.skills ?? {}) }, flags: parsed.flags ?? {} }
     }
   } catch {}
   const browserLang = typeof navigator !== 'undefined' && navigator.language.startsWith('de') ? 'de' : 'en'
@@ -130,6 +132,10 @@ export function markLessonSeen(n: number) {
   update((s) => ({ lessonsSeen: s.lessonsSeen.includes(n) ? s.lessonsSeen : [...s.lessonsSeen, n] }))
 }
 
+export function setFlag(key: string, value: number) {
+  update((s) => ({ flags: { ...s.flags, [key]: value } }))
+}
+
 export function resetSave() {
   save.value = { ...freshSave(lang.value), sound: save.value.sound }
 }
@@ -137,10 +143,10 @@ export function resetSave() {
 export type Screen =
   | { name: 'title' }
   | { name: 'prologue' }
-  | { name: 'world'; chapter: number; returnFrom?: 'identify' | 'lesson' }
+  | { name: 'world'; chapter: number; interior?: string }
   | { name: 'lesson'; chapter: number; part: 'intro' | 'lesson' | 'outro' }
   | { name: 'identify'; chapter: number; coin: string }
-  | { name: 'practice'; chapter: number }
+  | { name: 'practice'; chapter: number; skill?: Skill; rounds?: number; interior?: string; title?: string }
 
 export const screen = signal<Screen>({ name: 'title' })
 export const bookOpen = signal(false)

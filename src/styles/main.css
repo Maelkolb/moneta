@@ -137,6 +137,18 @@ button {
   overflow: hidden;
 }
 
+.speaker-tag {
+  position: absolute;
+  left: 40px;
+  top: -12px;
+  background: #fff;
+  color: #000;
+  border-radius: 12px;
+  padding: 2px 12px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
 .enter-btn {
   position: absolute;
   right: 20px;

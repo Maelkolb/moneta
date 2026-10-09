@@ -8,9 +8,10 @@ type Props = {
   children?: ComponentChildren
   onIndex?: (i: number) => void
   autoDone?: boolean
+  speaker?: string
 }
 
-export function TextBox({ lines, onDone, children, onIndex, autoDone = true }: Props) {
+export function TextBox({ lines, onDone, children, onIndex, autoDone = true, speaker }: Props) {
   const [i, setI] = useState(0)
   const last = i >= lines.length - 1
   useEffect(() => onIndex?.(i), [i])
@@ -44,6 +45,7 @@ export function TextBox({ lines, onDone, children, onIndex, autoDone = true }: P
   return (
     <div class="textbox" style={{ backgroundImage: `url(${assetUrl(img.textbox)})` }} onClick={advance}>
       <img class="press-space" src={assetUrl(last ? img.afterPressSpace : img.pressSpace)} alt="" />
+      {speaker && <div class="speaker-tag">{speaker}</div>}
       <div class="textbox-text">{lines[i]}</div>
       {children}
       {last && (

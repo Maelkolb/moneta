@@ -17,10 +17,11 @@ const labels = {
   mint: 'skillMint',
 } as const
 
-const ROUNDS = 10
+type Props = { chapter: number; skill?: Skill; rounds?: number; interior?: string; title?: string }
 
-export function Practice({ chapter }: { chapter: number }) {
-  const [skill, setSkill] = useState<Skill>('ruler')
+export function Practice({ chapter, skill: presetSkill, rounds: presetRounds, interior, title }: Props) {
+  const ROUNDS = presetRounds ?? 10
+  const [skill, setSkill] = useState<Skill>(presetSkill ?? 'ruler')
   const [questions, setQuestions] = useState<Question[] | null>(null)
   const [index, setIndex] = useState(0)
   const [results, setResults] = useState<boolean[]>([])
@@ -60,7 +61,10 @@ export function Practice({ chapter }: { chapter: number }) {
     setPicked(null)
     setIndex(index + 1)
   }
-  const leave = () => go({ name: 'world', chapter })
+  const leave = () => go({ name: 'world', chapter, interior })
+  useEffect(() => {
+    if (presetSkill && !questions) start()
+  }, [])
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -157,7 +161,7 @@ export function Practice({ chapter }: { chapter: number }) {
       </div>
       <div class="question-column">
         <div class="sheet-head">
-          <span>{t('practice')}</span>
+          <span>{title ?? t('practice')}</span>
           <span>
             {index + 1} / {ROUNDS}
           </span>

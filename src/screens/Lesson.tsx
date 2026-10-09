@@ -22,11 +22,11 @@ export function Lesson({ chapter, part }: Props) {
     if (part === 'outro') {
       completeChapter(chapter)
       addXp(100)
-      go({ name: 'world', chapter, returnFrom: 'lesson' })
+      go({ name: 'world', chapter })
       return
     }
     markLessonSeen(chapter)
-    go({ name: 'world', chapter, returnFrom: 'lesson' })
+    go({ name: 'world', chapter })
   }
 
   const illustration = pickIllustration(chapter, part, index - lessonStart)

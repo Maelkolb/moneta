@@ -35,10 +35,10 @@ export function App() {
     <Stage>
       {s.name === 'title' && <Title />}
       {s.name === 'prologue' && <Prologue />}
-      {s.name === 'world' && <World chapter={s.chapter} key={s.chapter} />}
+      {s.name === 'world' && <World chapter={s.chapter} interior={s.interior} key={`${s.chapter}:${s.interior ?? ''}`} />}
       {s.name === 'lesson' && <Lesson chapter={s.chapter} part={s.part} key={`${s.chapter}-${s.part}`} />}
       {s.name === 'identify' && <Identify chapter={s.chapter} coinId={s.coin} key={s.coin} />}
-      {s.name === 'practice' && <Practice chapter={s.chapter} />}
+      {s.name === 'practice' && <Practice chapter={s.chapter} skill={s.skill} rounds={s.rounds} interior={s.interior} title={s.title} />}
       {bookOpen.value && <Book />}
     </Stage>
   )

@@ -80,7 +80,7 @@ export function Identify({ chapter, coinId }: Props) {
     setRevealed(false)
   }
 
-  const leave = () => go({ name: 'world', chapter, returnFrom: 'identify' })
+  const leave = () => go({ name: 'world', chapter })
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {

@@ -28,6 +28,17 @@ export const img = {
   gem: 'img/gemstone.png',
   trophy: 'img/golden_trophy.png',
   coinFound: 'img/coin_found_text.png',
+  tentFloor: 'img/Tent_floor.png',
+  npc_elder_down: 'img/npc_elder_down.png', npc_elder_up: 'img/npc_elder_up.png',
+  npc_smith_down: 'img/npc_smith_down.png', npc_smith_up: 'img/npc_smith_up.png',
+  npc_trader_down: 'img/npc_trader_down.png', npc_trader_up: 'img/npc_trader_up.png',
+  npc_seer_down: 'img/npc_seer_down.png', npc_seer_up: 'img/npc_seer_up.png',
+  npc_child_down: 'img/npc_child_down.png', npc_child_up: 'img/npc_child_up.png',
+  npc_farmer_down: 'img/npc_farmer_down.png', npc_farmer_up: 'img/npc_farmer_up.png',
+  npc_warrior_down: 'img/npc_warrior_down.png', npc_warrior_up: 'img/npc_warrior_up.png',
+  npc_legion_down: 'img/npc_legion_down.png', npc_legion_up: 'img/npc_legion_up.png',
+  npc_woman_down: 'img/npc_woman_down.png', npc_woman_up: 'img/npc_woman_up.png',
+  npc_monk_down: 'img/npc_monk_down.png', npc_monk_up: 'img/npc_monk_up.png',
 } as const
 
 export type ImageKey = keyof typeof img

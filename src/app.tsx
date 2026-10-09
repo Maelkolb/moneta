@@ -1,60 +1,45 @@
-import { screen, go, save, t, tx, rank, toggleLang } from './state'
+import { useEffect } from 'preact/hooks'
+import { screen, bookOpen, save } from './state'
+import { Stage } from './ui/Stage'
 import { Title } from './screens/Title'
 import { Prologue } from './screens/Prologue'
-import { Village } from './screens/Village'
-import { ChapterScreen } from './screens/Chapter'
-import { Codex } from './screens/Codex'
-import { Cabinet } from './screens/Cabinet'
+import { World } from './screens/World'
+import { Lesson } from './screens/Lesson'
+import { Identify } from './screens/Identify'
 import { Practice } from './screens/Practice'
-import { About } from './screens/About'
+import { Book } from './screens/Book'
+import { applySoundSetting } from './engine/audio'
 
 export function App() {
   const s = screen.value
-  const inGame = s.name !== 'title'
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const k = e.key.toLowerCase()
+      if (s.name === 'title' || s.name === 'prologue') return
+      if (k === 'b' || k === 'tab') {
+        e.preventDefault()
+        bookOpen.value = !bookOpen.value
+      } else if (k === 'escape' && bookOpen.value) {
+        bookOpen.value = false
+      } else if (k === 'm') {
+        save.value = { ...save.value, sound: !save.value.sound }
+        applySoundSetting()
+      }
+    }
+    window.addEventListener('keydown', onKey, true)
+    return () => window.removeEventListener('keydown', onKey, true)
+  }, [s.name])
+
   return (
-    <div class="stage">
-      {inGame && (
-        <header class="topbar">
-          <button class="brand" onClick={() => go({ name: 'village' })}>
-            <svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true">
-              <circle cx="16" cy="16" r="14" fill="#c9a227" />
-              <circle cx="16" cy="16" r="11" fill="none" stroke="#7a5a0e" stroke-width="1.5" />
-            </svg>
-            {t('appName')}
-          </button>
-          <span class="rankline">
-            {tx(rank.value.current.title)}
-            <span class="xp">
-              {save.value.xp} {t('xpUnit')}
-            </span>
-          </span>
-          <nav>
-            <button class={s.name === 'village' ? 'active' : ''} onClick={() => go({ name: 'village' })}>
-              {t('village')}
-            </button>
-            <button class={s.name === 'codex' ? 'active' : ''} onClick={() => go({ name: 'codex' })}>
-              {t('codex')}
-            </button>
-            <button class={s.name === 'cabinet' ? 'active' : ''} onClick={() => go({ name: 'cabinet' })}>
-              {t('cabinet')}
-            </button>
-            <button class={s.name === 'practice' ? 'active' : ''} onClick={() => go({ name: 'practice' })}>
-              {t('practice')}
-            </button>
-            <button class="lang" onClick={toggleLang}>
-              {t('language')}
-            </button>
-          </nav>
-        </header>
-      )}
+    <Stage>
       {s.name === 'title' && <Title />}
       {s.name === 'prologue' && <Prologue />}
-      {s.name === 'village' && <Village />}
-      {s.name === 'chapter' && <ChapterScreen chapter={s.chapter} key={s.chapter} />}
-      {s.name === 'codex' && <Codex tab={s.tab} />}
-      {s.name === 'cabinet' && <Cabinet />}
-      {s.name === 'practice' && <Practice />}
-      {s.name === 'about' && <About />}
-    </div>
+      {s.name === 'world' && <World chapter={s.chapter} key={s.chapter} />}
+      {s.name === 'lesson' && <Lesson chapter={s.chapter} part={s.part} key={`${s.chapter}-${s.part}`} />}
+      {s.name === 'identify' && <Identify chapter={s.chapter} coinId={s.coin} key={s.coin} />}
+      {s.name === 'practice' && <Practice chapter={s.chapter} />}
+      {bookOpen.value && <Book />}
+    </Stage>
   )
 }

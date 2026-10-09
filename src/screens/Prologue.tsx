@@ -1,17 +1,22 @@
 import { prologue } from '../data/chapters'
-import { go, update } from '../state'
-import { Dialogue } from '../ui/Dialogue'
-import { VillageScene } from '../ui/art'
+import { assetUrl, img } from '../engine/assets'
+import { play } from '../engine/audio'
+import { go, tx, update } from '../state'
+import { TextBox } from '../ui/TextBox'
+import { useEffect } from 'preact/hooks'
 
 export function Prologue() {
+  useEffect(() => {
+    void play('town')
+  }, [])
   const done = () => {
     update({ prologueSeen: true })
-    go({ name: 'village' })
+    go({ name: 'world', chapter: 1 })
   }
   return (
-    <div class="panel" style="padding-top:0">
-      <VillageScene terrain="meadow" />
-      <Dialogue lines={prologue} onDone={done} />
+    <div class="screen prologue" style={{ backgroundImage: `url(${assetUrl(img.background)})` }}>
+      <img class="gwen-portrait" src={assetUrl(img.gwenPortrait)} alt="Gwen" />
+      <TextBox lines={prologue.map(tx)} onDone={done} />
     </div>
   )
 }

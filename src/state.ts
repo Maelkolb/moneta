@@ -82,10 +82,6 @@ export function t(key: StringKey, vars?: Record<string, string | number>): strin
   return s
 }
 
-export function coinsText(n: number): string {
-  return n === 1 ? t('coinsFoundOne') : t('coinsFoundMany', { n })
-}
-
 export function tx(text: Text | undefined): string {
   if (!text) return ''
   return text[lang.value] ?? text.en
@@ -130,24 +126,28 @@ export function completeChapter(n: number) {
   update((s) => ({ chapterDone: s.chapterDone.includes(n) ? s.chapterDone : [...s.chapterDone, n] }))
 }
 
+export function markLessonSeen(n: number) {
+  update((s) => ({ lessonsSeen: s.lessonsSeen.includes(n) ? s.lessonsSeen : [...s.lessonsSeen, n] }))
+}
+
 export function resetSave() {
-  save.value = freshSave(lang.value)
+  save.value = { ...freshSave(lang.value), sound: save.value.sound }
 }
 
 export type Screen =
   | { name: 'title' }
   | { name: 'prologue' }
-  | { name: 'village' }
-  | { name: 'chapter'; chapter: number }
-  | { name: 'dig'; chapter: number }
-  | { name: 'codex'; tab?: string }
-  | { name: 'cabinet' }
-  | { name: 'practice' }
-  | { name: 'about' }
+  | { name: 'world'; chapter: number; returnFrom?: 'identify' | 'lesson' }
+  | { name: 'lesson'; chapter: number; part: 'intro' | 'lesson' | 'outro' }
+  | { name: 'identify'; chapter: number; coin: string }
+  | { name: 'practice'; chapter: number }
 
 export const screen = signal<Screen>({ name: 'title' })
+export const bookOpen = signal(false)
+export const bookTab = signal<string>('rulers')
 
 export function go(next: Screen) {
   screen.value = next
-  window.scrollTo(0, 0)
 }
+
+export const currentChapter = signal(1)

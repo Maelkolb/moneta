@@ -1,14 +1,13 @@
-import { useState } from 'preact/hooks'
-import { data } from '../data'
+import { useEffect, useState } from 'preact/hooks'
+import { coinImage, data } from '../data'
 import type { Skill } from '../data/chapters'
-import type { Coin } from '../data/types'
+import { play, sfxBad, sfxGood } from '../engine/audio'
 import { mulberry32, questionFor, shuffle, type Question } from '../game/questions'
-import { good, bad } from '../game/audio'
-import { addXp, lang, recordAnswer, save, t, tx, unlockedChapters } from '../state'
-import { CoinSides } from '../ui/CoinView'
+import { addXp, bookOpen, go, lang, recordAnswer, t, tx, unlockedChapters } from '../state'
+import { Legend } from '../ui/Legend'
 
 const skills: Skill[] = ['metal', 'denomination', 'ruler', 'legend', 'reverse', 'date', 'mint']
-const labels: Record<Skill, 'skillMetal' | 'skillDenomination' | 'skillRuler' | 'skillLegend' | 'skillReverse' | 'skillDate' | 'skillMint'> = {
+const labels = {
   metal: 'skillMetal',
   denomination: 'skillDenomination',
   ruler: 'skillRuler',
@@ -16,16 +15,20 @@ const labels: Record<Skill, 'skillMetal' | 'skillDenomination' | 'skillRuler' | 
   reverse: 'skillReverse',
   date: 'skillDate',
   mint: 'skillMint',
-}
+} as const
 
 const ROUNDS = 10
 
-export function Practice() {
+export function Practice({ chapter }: { chapter: number }) {
   const [skill, setSkill] = useState<Skill>('ruler')
   const [questions, setQuestions] = useState<Question[] | null>(null)
   const [index, setIndex] = useState(0)
   const [results, setResults] = useState<boolean[]>([])
   const [picked, setPicked] = useState<string | null>(null)
+
+  useEffect(() => {
+    void play('battle')
+  }, [])
 
   const start = () => {
     const unlocked = unlockedChapters()
@@ -33,7 +36,7 @@ export function Practice() {
     const rng = mulberry32(Date.now() % 1000000)
     const qs: Question[] = []
     for (const coin of shuffle(pool, rng)) {
-      const q = questionFor(skill, coin as Coin, data, lang.value, rng)
+      const q = questionFor(skill, coin, data, lang.value, rng)
       if (q) qs.push(q)
       if (qs.length === ROUNDS) break
     }
@@ -50,29 +53,57 @@ export function Practice() {
     const ok = id === q.answer
     recordAnswer(q.skill, ok)
     if (ok) addXp(5)
-    if (save.value.sound) (ok ? good : bad)()
+    ;(ok ? sfxGood : sfxBad)()
     setResults([...results, ok])
   }
   const next = () => {
     setPicked(null)
     setIndex(index + 1)
   }
+  const leave = () => go({ name: 'world', chapter })
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (bookOpen.value) return
+      if (e.key === 'Escape') leave()
+      else if (e.key === 'Enter') {
+        if (!questions) start()
+        else if (!q) start()
+        else if (picked) next()
+      } else if (/^[1-4]$/.test(e.key) && q && !picked) {
+        const o = q.options[Number(e.key) - 1]
+        if (o) choose(o.id)
+      } else return
+      e.preventDefault()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  })
 
   if (!questions) {
     return (
-      <div class="panel">
-        <h2>{t('practice')}</h2>
-        <p class="muted">{t('practiceIntro')}</p>
-        <div class="skill-grid" style="margin:16px 0 20px">
-          {skills.map((s) => (
-            <button class={skill === s ? 'active' : ''} onClick={() => setSkill(s)}>
-              {t(labels[s])}
+      <div class="screen identify practice-setup">
+        <div class="question-column">
+          <div class="sheet-head">
+            <span>{t('practice')}</span>
+          </div>
+          <p class="q-prompt">{t('practiceIntro')}</p>
+          <div class="skill-grid">
+            {skills.map((s) => (
+              <button class={`q-option ${skill === s ? 'right' : ''}`} onClick={() => setSkill(s)}>
+                {t(labels[s])}
+              </button>
+            ))}
+          </div>
+          <div class="q-buttons">
+            <button class="small-btn" onClick={leave}>
+              {t('back')} [Esc]
             </button>
-          ))}
+            <button class="small-btn primary" onClick={start}>
+              {t('practiceStart')} ↵
+            </button>
+          </div>
         </div>
-        <button class="btn primary" onClick={start}>
-          {t('practiceStart')}
-        </button>
       </div>
     )
   }
@@ -80,58 +111,87 @@ export function Practice() {
   if (!q) {
     const right = results.filter(Boolean).length
     return (
-      <div class="panel">
-        <h2>{t('practiceResult')}</h2>
-        <div class="practice-progress" style="margin:16px 0">
-          {results.map((r) => (
-            <i class={r ? 'right' : 'wrong'} />
-          ))}
-        </div>
-        <p style="font-size:1.4rem">
-          {right} / {results.length}
-        </p>
-        <div class="row">
-          <button class="btn primary" onClick={start}>
-            {t('practiceAgain')}
-          </button>
-          <button class="btn" onClick={() => setQuestions(null)}>
-            {t('back')}
-          </button>
+      <div class="screen identify practice-setup">
+        <div class="question-column">
+          <div class="sheet-head">
+            <span>{t('practiceResult')}</span>
+            <span>
+              {right} / {results.length}
+            </span>
+          </div>
+          <div class="practice-dots">
+            {results.map((r) => (
+              <i class={r ? 'right' : 'wrong'} />
+            ))}
+          </div>
+          <div class="q-buttons">
+            <button class="small-btn" onClick={leave}>
+              {t('back')} [Esc]
+            </button>
+            <button class="small-btn primary" onClick={start}>
+              {t('practiceAgain')} ↵
+            </button>
+          </div>
         </div>
       </div>
     )
   }
 
   return (
-    <div class="identify-layout">
-      <div class="panel">
-        <CoinSides coin={q.coin} highlight={q.skill === 'legend' ? q.highlight : undefined} showLegends={q.skill === 'legend'} />
+    <div class="screen identify">
+      <div class="coin-column">
+        <figure>
+          <img src={coinImage(q.coin, 'obv')} alt="" />
+          <figcaption>
+            {t('obverse')}
+            {q.skill === 'legend' && <Legend text={q.coin.obvLegend} highlight={q.highlight} />}
+          </figcaption>
+        </figure>
+        <figure>
+          <img src={coinImage(q.coin, 'rev')} alt="" />
+          <figcaption>
+            {t('reverse')}
+            {q.skill === 'legend' && <Legend text={q.coin.revLegend} highlight={q.highlight} />}
+          </figcaption>
+        </figure>
       </div>
-      <div class="panel">
-        <div class="practice-progress">
+      <div class="question-column">
+        <div class="sheet-head">
+          <span>{t('practice')}</span>
+          <span>
+            {index + 1} / {ROUNDS}
+          </span>
+        </div>
+        <div class="practice-dots">
           {Array.from({ length: ROUNDS }, (_, i) => (
             <i class={results[i] === undefined ? '' : results[i] ? 'right' : 'wrong'} />
           ))}
         </div>
-        <h2>{tx(q.prompt)}</h2>
-        <div class="options" style="margin-top:12px">
-          {q.options.map((o) => {
+        <div class="q-prompt">{tx(q.prompt)}</div>
+        <div class="q-options">
+          {q.options.map((o, i) => {
             const cls = picked ? (o.id === q.answer ? 'right' : o.id === picked ? 'wrong' : '') : ''
             return (
-              <button class={cls} disabled={!!picked} onClick={() => choose(o.id)}>
-                {o.label}
-                {o.detail && <span class="detail">{o.detail}</span>}
+              <button class={`q-option ${cls}`} disabled={!!picked} onClick={() => choose(o.id)}>
+                <span class="q-num">{i + 1}</span>
+                <span>
+                  {o.label}
+                  {o.detail && <small>{o.detail}</small>}
+                </span>
               </button>
             )
           })}
         </div>
-        {picked && (
-          <div class="row end" style="margin-top:14px">
-            <button class="btn primary" onClick={next}>
-              {t('next')}
+        <div class="q-buttons">
+          <button class="small-btn" onClick={leave}>
+            {t('back')} [Esc]
+          </button>
+          {picked && (
+            <button class="small-btn primary" onClick={next}>
+              {t('next')} ↵
             </button>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   )

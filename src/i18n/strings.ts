@@ -117,6 +117,16 @@ export const strings = {
   junkBone: { en: 'An animal bone. Someone’s dinner, two thousand years ago.', de: 'Ein Tierknochen. Jemandes Abendessen, vor zweitausend Jahren.' },
   energy: { en: 'Daylight', de: 'Tageslicht' },
   nightfall: { en: 'Night falls. You return to camp with what you found.', de: 'Die Nacht bricht herein. Du kehrst mit deinen Funden ins Lager zurück.' },
+  book: { en: 'Book', de: 'Buch' },
+  nothing: { en: 'Nothing, thanks', de: 'Nichts, danke' },
+  findGwen: { en: 'Gwen is waiting at the statue of the goddess. Walk there with the arrow keys or WASD.', de: 'Gwen wartet an der Statue der Göttin. Geh mit den Pfeiltasten oder WASD dorthin.' },
+  talkToGwenFirst: { en: 'The meadow is sacred ground. Talk to Gwen at the statue first.', de: 'Die Wiese ist heiliger Boden. Sprich zuerst mit Gwen an der Statue.' },
+  foundCoin: { en: 'You found a coin! ...digging...', de: 'Du hast eine Münze gefunden! ...graben...' },
+  coinsLabel: { en: 'coins', de: 'Münzen' },
+  worldKeys: { en: 'Arrows / WASD: walk. Space: talk. B: book. M: music', de: 'Pfeile / WASD: gehen. Leertaste: reden. B: Buch. M: Musik' },
+  travelHint: { en: 'Choose a site with the arrow keys and Enter.', de: 'Wähle einen Ort mit den Pfeiltasten und Enter.' },
+  stayHere: { en: 'Stay here', de: 'Hier bleiben' },
+  titleCredit: { en: 'Coins and data: OCRE and the American Numismatic Society', de: 'Münzen und Daten: OCRE und American Numismatic Society' },
 } satisfies Record<string, Text>
 
 export type StringKey = keyof typeof strings
